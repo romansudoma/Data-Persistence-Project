@@ -6,13 +6,15 @@ using UnityEngine.UI;
 
 public class MainManager : MonoBehaviour
 {
+    [SerializeField] private Text bestScoreText;
+
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
 
     public Text ScoreText;
     public GameObject GameOverText;
-    
+
     private bool m_Started = false;
     private int m_Points;
     
@@ -36,6 +38,10 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+
+        bestScoreText.text = "Best Score: " + 
+            DataManager.Instance.BestPlayerName + ": " + 
+            DataManager.Instance.BestScore;
     }
 
     private void Update()
@@ -72,5 +78,6 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        DataManager.Instance.SetBestScore(m_Points);
     }
 }
